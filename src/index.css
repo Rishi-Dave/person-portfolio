@@ -64,15 +64,15 @@
 
 @layer base {
   :root {
-    --background: 210 40% 98%;
-    --foreground: 222 47% 11%;
+    --background: 210 40% 98%; /* Light nearly white background */
+    --foreground: 222 47% 11%; /* Dark nearly black text */
 
-    --card: 0 0% 100%;
+    --card: 0 0% 100%; /* White card background */
 
-    --primary: 250 47% 60%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 345 60% 35%; /* Maroon for primary (dark red hue) */
+    --primary-foreground: 210 40% 98%; /* Light nearly white text on primary */
 
-    --border: 214 32% 91%;
+    --border: 214 32% 91%; /* Light border */
   }
 
   .dark {

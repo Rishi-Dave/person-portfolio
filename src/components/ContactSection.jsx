@@ -1,12 +1,10 @@
 import {
-  Instagram,
   Linkedin,
   Mail,
   MapPin,
   Phone,
   Send,
-  Twitch,
-  Twitter,
+  Github,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
@@ -16,19 +14,16 @@ export const ContactSection = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    setIsSubmitting(true);
-
-    setTimeout(() => {
-      toast({
-        title: "Message sent!",
-        description: "Thank you for your message. I'll get back to you soon.",
-      });
-      setIsSubmitting(false);
-    }, 1500);
+  // You can still use this for client-side validation or to show a success toast AFTER the form service redirects or confirms.
+  // For basic Formspree, the success toast might appear on their success page, or you can use AJAX submission below.
+  const handleFormSubmissionSuccess = () => {
+    toast({
+      title: "Message sent!",
+      description: "Thank you for your message. I'll get back to you soon.",
+    });
+    setIsSubmitting(false); // Reset submitting state if you used it for loading
   };
+
   return (
     <section id="contact" className="py-24 px-4 relative bg-secondary/30">
       <div className="container mx-auto max-w-5xl">
@@ -37,7 +32,7 @@ export const ContactSection = () => {
         </h2>
 
         <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
-          Have a project in mind or want to collaborate? Feel free to reach out.
+          Have a job opening in mind or want to collaborate? Feel free to reach out.
           I'm always open to discussing new opportunities.
         </p>
 
@@ -56,10 +51,10 @@ export const ContactSection = () => {
                 <div>
                   <h4 className="font-medium"> Email</h4>
                   <a
-                    href="mailto:hello@gmail.com"
+                    href="mailto:rishpdave@gmail.com" // Ensure this is your actual email for direct clicks
                     className="text-muted-foreground hover:text-primary transition-colors"
                   >
-                    hello@gmail.com
+                    rishpdave@gmail.com
                   </a>
                 </div>
               </div>
@@ -70,10 +65,10 @@ export const ContactSection = () => {
                 <div>
                   <h4 className="font-medium"> Phone</h4>
                   <a
-                    href="tel:+11234567890"
+                    href="tel:+15108949147"
                     className="text-muted-foreground hover:text-primary transition-colors"
                   >
-                    +1 (123) 456-7890
+                    +1 (510) 894-9147
                   </a>
                 </div>
               </div>
@@ -84,7 +79,7 @@ export const ContactSection = () => {
                 <div>
                   <h4 className="font-medium"> Location</h4>
                   <a className="text-muted-foreground hover:text-primary transition-colors">
-                    Vancouver, BC, Canada
+                    Fremont, California
                   </a>
                 </div>
               </div>
@@ -93,17 +88,11 @@ export const ContactSection = () => {
             <div className="pt-8">
               <h4 className="font-medium mb-4"> Connect With Me</h4>
               <div className="flex space-x-4 justify-center">
-                <a href="#" target="_blank">
+                <a href="https://www.linkedin.com/in/rishi-dave1/" target="_blank" rel="noopener noreferrer">
                   <Linkedin />
                 </a>
-                <a href="#" target="_blank">
-                  <Twitter />
-                </a>
-                <a href="#" target="_blank">
-                  <Instagram />
-                </a>
-                <a href="#" target="_blank">
-                  <Twitch />
+                <a href="https://github.com/Rishi-Dave/" target="_blank" rel="noopener noreferrer">
+                  <Github />
                 </a>
               </div>
             </div>
@@ -111,11 +100,15 @@ export const ContactSection = () => {
 
           <div
             className="bg-card p-8 rounded-lg shadow-xs"
-            onSubmit={handleSubmit}
           >
             <h3 className="text-2xl font-semibold mb-6"> Send a Message</h3>
 
-            <form className="space-y-6">
+            {/* --- IMPORTANT CHANGE HERE --- */}
+            <form
+              className="space-y-6"
+              action="https://formspree.io/f/xanbyvdz" // Replace with your actual Formspree endpoint
+              method="POST"
+            >
               <div>
                 <label
                   htmlFor="name"
@@ -127,10 +120,10 @@ export const ContactSection = () => {
                 <input
                   type="text"
                   id="name"
-                  name="name"
+                  name="name" // Name attribute is crucial for form submission
                   required
                   className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden foucs:ring-2 focus:ring-primary"
-                  placeholder="Pedro Machado..."
+                  placeholder="Your Name..."
                 />
               </div>
 
@@ -145,10 +138,10 @@ export const ContactSection = () => {
                 <input
                   type="email"
                   id="email"
-                  name="email"
+                  name="_replyto" // For Formspree, use '_replyto' to set the reply-to email
                   required
                   className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden foucs:ring-2 focus:ring-primary"
-                  placeholder="john@gmail.com"
+                  placeholder="user@gmail.com"
                 />
               </div>
 
@@ -162,7 +155,7 @@ export const ContactSection = () => {
                 </label>
                 <textarea
                   id="message"
-                  name="message"
+                  name="message" // Name attribute is crucial
                   required
                   className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden foucs:ring-2 focus:ring-primary resize-none"
                   placeholder="Hello, I'd like to talk about..."
@@ -171,14 +164,16 @@ export const ContactSection = () => {
 
               <button
                 type="submit"
-                disabled={isSubmitting}
+                disabled={isSubmitting} // isSubmitting state would be managed by the form service
                 className={cn(
                   "cosmic-button w-full flex items-center justify-center gap-2"
                 )}
               >
-                {isSubmitting ? "Sending..." : "Send Message"}
+                Send Message {/* No more "Sending..." unless using AJAX below */}
                 <Send size={16} />
               </button>
+
+              
             </form>
           </div>
         </div>
